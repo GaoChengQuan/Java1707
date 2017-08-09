@@ -33,23 +33,25 @@ public class ExceptionDemo {
 	@Test
 	public void teest22() {
 		int result = 0;
-		try {
+		/*try {*/
 			result = div(6, 0);
-		} catch (ArithmeticException e) {
+		/*} catch (ArithmeticException e) {
 			e.printStackTrace();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			e.printStackTrace();
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		System.out.println(result);
 	}
 	
 	public int div(int num1, int num2) throws ArithmeticException, ArrayIndexOutOfBoundsException {
 		int[] array = new int[3];
-		//System.out.println(array[3]);
+		System.out.println(array[3]);
 		String str = null;
-		str.charAt(0);
+		if (str != null) {
+			str.charAt(0);
+		}
 		return num1 / num2;
 	}
 	
