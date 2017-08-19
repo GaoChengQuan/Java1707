@@ -8,18 +8,39 @@ import java.sql.Statement;
 
 import org.junit.Test;
 
+import com.situ.util.JdbcUtil;
+
 public class DBDemo {
+	@Test
+	public void createTable() {
+	    Connection connection = null;
+	    Statement statement = null;
+	    try {
+	       // 2、获取连接对象Connection
+	       connection = JdbcUtil.getConnection();
+	       // 3、写sql语句
+	       String sql = "CREATE TABLE teacher(id INT PRIMARY KEY AUTO_INCREMENT,NAME VARCHAR(10));";
+	       //4、创建Statement
+	       statement = connection.createStatement();
+	       //5、执行sql语句
+	        //更新：delete/insert/update       executeUpdate()    返回值int表示影响的行数
+	        //查询：select                     executeQuery()    返回结果集ResultSet
+	       int result = statement.executeUpdate(sql);
+	       System.out.println(result);
+	    } catch (SQLException e) {
+	       e.printStackTrace();
+	    } finally {
+	       JdbcUtil.close(connection, statement);
+	    }
+	}
+
 	@Test
 	public void selectFromStudent() {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
 		try {
-			//1、加载驱动 Class.forNmae("");
-			Class.forName("com.mysql.jdbc.Driver");
-			//2、获取连接对象Connection。
-			connection = 
-					DriverManager.getConnection("jdbc:mysql://localhost:3306/java1707", "root", "123");
+			connection = JdbcUtil.getConnection();
 			//3、写sql语句。
 			String sql = "SELECT * FROM student;";
 			//4、创建Satement。
@@ -36,35 +57,15 @@ public class DBDemo {
 				System.out.println("name:" + name + ",age:" + age
 						+ ",gender:" + gender + ",address:" + address);
 			}
-			//6、关闭
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (resultSet != null) {
-				try {
-					resultSet.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			//6、关闭
+			JdbcUtil.close(connection, statement, resultSet);
 		}
 	}
+
+
+
+	
 }
